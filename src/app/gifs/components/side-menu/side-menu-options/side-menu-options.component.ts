@@ -28,7 +28,7 @@ menuOptions:MenuOption[]= [
   label: 'Search',
   subLabel: 'Search gifs',
   route: '/dashboard/search',
-  icon: 'fa-solid fa-magnifying-glass',
+  icon: 'fa-brands fa-searchengin',
   
 },
 ]
