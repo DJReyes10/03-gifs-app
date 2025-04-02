@@ -1,6 +1,6 @@
-import { Component, computed, ElementRef, inject, signal, viewChild } from '@angular/core';
-import { GifListComponent } from "../../components/gif-list/gif-list.component";
+import { AfterViewInit, Component, ElementRef, inject, viewChild } from '@angular/core';
 import { GifService } from '../../services/gifs.service';
+import { ScrollStateService } from '../../../shared/services/scroll-state.service';
 
 
 @Component({
@@ -8,10 +8,20 @@ import { GifService } from '../../services/gifs.service';
   // imports: [GifListComponent],
   templateUrl: './trending-page.component.html',
 })
-export default class TrendingPageComponent { 
+export default class TrendingPageComponent implements AfterViewInit { 
+  scrollStateService = inject(ScrollStateService)
   gifService = inject(GifService)
 
   scrollDivRef = viewChild<ElementRef>('groupDiv')
+
+
+  ngAfterViewInit(): void {
+    const scrollDiv = this.scrollDivRef()?.nativeElement
+  
+    if (!scrollDiv )return;
+
+    scrollDiv.scrollTop = this.scrollStateService.trendingScrollState()
+  }
 
   //El viewChild y viewChildren sirven para tomar informacion o referencias a piezas del html
   //El viewChild, funciona para un solo elemento
@@ -25,7 +35,10 @@ onScroll( event: Event) {
   const clientlHeight = scrollDiv.clientHeight
   const scrollHeight =  scrollDiv.scrollHeight
 
+  debugger;
+
   const isAttBottom =  scrollTop + clientlHeight +300 >=scrollHeight
+  this.scrollStateService.trendingScrollState.set(scrollTop);
 
   if (isAttBottom) {
     this.gifService.loadTrendingGifs();

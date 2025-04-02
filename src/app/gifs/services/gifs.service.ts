@@ -1,3 +1,4 @@
+//Archivo utilizado para gestionar los servicios de los Gifs
 import { HttpClient } from '@angular/common/http';
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
